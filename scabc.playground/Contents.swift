@@ -1,7 +1,11 @@
 import UIKit
 import PlaygroundSupport
 
-PlaygroundPage.current.liveView = SCABC_III()
+// PlaygroundPage.current.liveView = SCABC_I()
+// PlaygroundPage.current.liveView = SCABC_II()
+// PlaygroundPage.current.liveView = SCABC_III()
+// PlaygroundPage.current.liveView = SCABC_IV()
+ PlaygroundPage.current.liveView = SCABC_VII()
 
 
 /**
@@ -48,10 +52,19 @@ func SCABC_II() -> UIView {
 func SCABC_III() -> UIView {
     let view = SCABCView(frame: CGRect(x: 0, y: 0, width: 600, height: 600))
     let cream = CGColor(red: 1, green: 1, blue: 0.95, alpha: 1)
-    view.painting = collage(width: 38, height: 38, background: cream, fillingFunction: radial(steepness: 1.3
+    view.painting = collage(width: 38, height: 38, background: cream, fillingFunction: radial(steepness: 2))
+    return view
+}
+
+func SCABC_IV() -> UIView {
+    let view = SCABCView(frame: CGRect(x: 0, y: 0, width: 600, height: 600))
+    let black = CGColor(red: 0, green: 0, blue: 0.0, alpha: 1)
+    view.painting = collage(width: 38, height: 38, background: black, fillingFunction: radial(steepness: 1.3
     ))
     return view
 }
+
+
 
 /// According to https://azprojectsblog.wordpress.com/2015/09/27/the-aesthetics-of-chance-ellsworth-kelly/
 /// 18 different colors of paper were used.
