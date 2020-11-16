@@ -3,9 +3,9 @@ import PlaygroundSupport
 
 // PlaygroundPage.current.liveView = SCABC_I()
 // PlaygroundPage.current.liveView = SCABC_II()
-// PlaygroundPage.current.liveView = SCABC_III()
+ PlaygroundPage.current.liveView = SCABC_III()
 // PlaygroundPage.current.liveView = SCABC_IV()
- PlaygroundPage.current.liveView = SCABC_VII()
+//PlaygroundPage.current.liveView = SCABC_VII()
 
 
 /**
@@ -76,4 +76,3 @@ func SCABC_VII() -> UIView {
     view.painting = collage(width: 38, height: 38, background: white, fillingFunction: { _,_ in 1.0 })
     return view
 }
-
