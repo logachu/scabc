@@ -1,7 +1,8 @@
 import UIKit
 import PlaygroundSupport
 
-PlaygroundPage.current.liveView = SCABC_I()
+PlaygroundPage.current.liveView = SCABC_III()
+
 
 /**
  Artist: Ellsworth Kelly
@@ -14,7 +15,7 @@ PlaygroundPage.current.liveView = SCABC_I()
 func SCABC_I() -> UIView {
     let view = SCABCView(frame: CGRect(x: 0, y: 0, width: 600, height: 300))
     let cream = CGColor(red: 1, green: 1, blue: 0.95, alpha: 1)
-    view.painting = collage(width: 40, height: 20, background: cream, distribution: mountain(withSteepness: 4))
+    view.painting = collage(width: 40, height: 20, background: cream, fillingFunction: verticalRidge(withSteepness: 4, peakingAt: 0.5))
     return view
 }
 
@@ -30,7 +31,7 @@ func SCABC_I() -> UIView {
 func SCABC_II() -> UIView {
     let view = SCABCView(frame: CGRect(x: 0, y: 0, width: 600, height: 600))
     let black = CGColor(gray: 0, alpha: 1)
-    view.painting = collage(width: 38, height: 38, background: black, distribution: fiftyFifty)
+    view.painting = collage(width: 38, height: 38, background: black, fillingFunction: fiftyFifty)
     return view
 }
 
@@ -44,7 +45,13 @@ func SCABC_II() -> UIView {
  NOTES: one yellowed piece of paper 19x19 grid squares pasted on. So 38x38 squares total. Squares on outer
  border are all empty so its sort of 36x36
  */
-// TOOD: func SCABC_III() -> VSView {
+func SCABC_III() -> UIView {
+    let view = SCABCView(frame: CGRect(x: 0, y: 0, width: 600, height: 600))
+    let cream = CGColor(red: 1, green: 1, blue: 0.95, alpha: 1)
+    view.painting = collage(width: 38, height: 38, background: cream, fillingFunction: radial(steepness: 1.3
+    ))
+    return view
+}
 
 /// According to https://azprojectsblog.wordpress.com/2015/09/27/the-aesthetics-of-chance-ellsworth-kelly/
 /// 18 different colors of paper were used.
@@ -53,6 +60,7 @@ func SCABC_II() -> UIView {
 func SCABC_VII() -> UIView {
     let view = SCABCView(frame: CGRect(x: 0, y: 0, width: 600, height: 600))
     let white = CGColor(gray: 1, alpha: 1) // Doesn't show because all squares are covered
-    view.painting = collage(width: 38, height: 38, background: white, distribution: { _ in 1.0 })
+    view.painting = collage(width: 38, height: 38, background: white, fillingFunction: { _,_ in 1.0 })
     return view
 }
+

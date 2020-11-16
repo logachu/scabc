@@ -66,20 +66,20 @@ func paint(_ painting: SCABC, with ctx: CGContext, into rect: CGRect) {
     }
 }
 
+public typealias FillingFunction = (Double, Double) -> Double
 public typealias DistributionFunction = (Double) -> Double
-
-public func collage(width: UInt, height: UInt, background: CGColor, distribution: @escaping DistributionFunction) -> SCABC {
+public func collage(width: UInt, height: UInt, background: CGColor, fillingFunction: @escaping FillingFunction) -> SCABC {
     let width = Int(width)
     let height = Int(height)
     
     /// predicate to determine if a square should be filled or not based on a random distribution
-    let isFilled = P(distribution, min: 0, max: width)
+    let isFilled = P(fillingFunction, xRange: 0..<width, yRange: 0..<height)
     
     var collage = SCABC(width: width, height: height, backgroundColor: background)
     
     for x in 0..<width {
         for y in 0..<height {
-            if isFilled(x) {
+            if isFilled(x, y) {
                 collage.addSquare(x: x, y: y, color: CGColor.random)
             }
         }
@@ -88,25 +88,47 @@ public func collage(width: UInt, height: UInt, background: CGColor, distribution
     return collage
 }
 
-/// function shaped like a symmetrical moutain with height 1 and peak at x=0.5
-public func mountain(withSteepness steepness: Double) -> DistributionFunction {
-    return { (x: Double) -> Double in
-        1/(1 + pow(steepness * (x-0.5),2))
+
+
+/// function shaped like a symmetrical mountain with height 1
+func mountain(withSteepness steepness: Double, peakingAt peak: Double) -> DistributionFunction {
+    return { x -> Double in
+        1/(1 + pow(steepness * (x-peak),2))
     }
 }
 
-public func fiftyFifty(_ x: Double) -> Double {
-    0.5
+public func verticalRidge(withSteepness steepness: Double, peakingAt peak: Double) -> FillingFunction {
+    let dist = mountain(withSteepness: steepness, peakingAt: peak)
+    return { (x: Double,_) -> Double in
+        dist(x)
+    }
+    
+}
+
+
+
+
+public func fiftyFifty(x: Double, y: Double) -> Double { 0.5 }
+
+public func radial(steepness: Double) -> FillingFunction {
+    let peak = mountain(withSteepness: steepness, peakingAt: 0)
+    return { x,y in
+        let x = 2*x - 1
+        let y = 2*y - 1
+        let radius = sqrt(x*x + y*y)
+        return peak(radius)
+    }
 }
 
 /// dist is a function from interval [0,1] to the same interval whose shape is a probability distribution
 /// P returns a function that takes an Int on the interval [min,max] and returns true or false with probability
 /// based on the shape of dist transformed to the same interval.
-func P(_ dist: @escaping DistributionFunction, min: Int, max: Int) -> (Int) -> Bool {
-    return { (x: Int) -> Bool in
-        let nx = Double(x - min) / Double(max - min)
+func P(_ dist: @escaping FillingFunction, xRange: Range<Int>, yRange: Range<Int>) -> (Int, Int) -> Bool {
+    return { (x: Int, y: Int) -> Bool in
+        let nx = Double(x - xRange.lowerBound) / Double(xRange.upperBound - xRange.lowerBound)
+        let ny = Double(y - yRange.lowerBound) / Double(yRange.upperBound - yRange.lowerBound)
         let r = Double.random(in: 0...1)
-        return dist(nx) > r
+        return dist(nx, ny) > r
     }
 }
 
