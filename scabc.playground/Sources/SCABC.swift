@@ -163,6 +163,7 @@ extension CGColor {
     }
 }
 
+/// Palette guessed by observing Spectrum Colors Arranged by Chance VII
 let black = CGColor(gray: 0, alpha: 1)
 let red = CGColor(red: 1, green: 0, blue: 0, alpha: 1)
 let green = CGColor(red: 0, green: 1, blue: 0, alpha: 1)
