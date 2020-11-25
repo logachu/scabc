@@ -3,10 +3,17 @@ import PlaygroundSupport
 
 // PlaygroundPage.current.liveView = SCABC_I()
 // PlaygroundPage.current.liveView = SCABC_II()
- PlaygroundPage.current.liveView = SCABC_III()
+// PlaygroundPage.current.liveView = SCABC_III()
 // PlaygroundPage.current.liveView = SCABC_IV()
-//PlaygroundPage.current.liveView = SCABC_VII()
+// PlaygroundPage.current.liveView = SCABC_VII()
+PlaygroundPage.current.liveView = BarrySCABC()
 
+func BarrySCABC() -> UIView {
+    let size = 500
+    let view = SCABCView(frame: CGRect(x: 0, y: 0, width: size, height: size))
+    view.painting = barry1(width: 25, height: 25)
+    return view
+}
 
 /**
  Artist: Ellsworth Kelly

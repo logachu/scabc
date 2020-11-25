@@ -88,7 +88,27 @@ public func collage(width: UInt, height: UInt, background: CGColor, fillingFunct
     return collage
 }
 
-
+public func barry1(width: UInt, height: UInt) -> SCABC {
+    let width = Int(width)
+    let height = Int(height)
+    let halfWidth = Int(ceil(Double(width)/2.0))
+    let halfHeight = Int(ceil(Double(height)/2.0))
+    var barry = SCABC(width: width, height: height, backgroundColor: UIColor.black.cgColor)
+    for y in 0..<halfHeight {
+        for x in y..<halfWidth {
+            let color = scabcColors.randomElement()!
+            barry.addSquare(x: x, y: y, color: color)
+            barry.addSquare(x: width-x-1, y: y, color: color)
+            barry.addSquare(x: y, y: x, color: color)
+            barry.addSquare(x: y, y: width-x-1, color: color)
+            barry.addSquare(x: width-y-1, y: x, color: color)
+            barry.addSquare(x: width-y-1, y: width-x-1, color: color)
+            barry.addSquare(x: width-x-1, y: height-y-1, color: color)
+            barry.addSquare(x: x, y: height-y-1, color: color)
+        }
+    }
+    return barry
+}
 
 /// function shaped like a symmetrical mountain with height 1
 func mountain(withSteepness steepness: Double, peakingAt peak: Double) -> DistributionFunction {
@@ -165,6 +185,7 @@ extension CGColor {
 
 /// Palette guessed by observing Spectrum Colors Arranged by Chance VII
 let black = CGColor(gray: 0, alpha: 1)
+let white = CGColor(gray: 1, alpha: 1)
 let red = CGColor(red: 1, green: 0, blue: 0, alpha: 1)
 let green = CGColor(red: 0, green: 1, blue: 0, alpha: 1)
 let blue = CGColor(red: 0, green: 0, blue: 1, alpha: 1)
@@ -176,8 +197,10 @@ let magenta = CGColor.hex(red: 0xFF, green: 0x00, blue: 0xFF, alpha: 0xFF)
 let brown = CGColor.hex(red: 0x80, green: 0x80, blue: 0x00, alpha: 0xFF)
 let darkGreen = CGColor.hex(red: 0x40, green: 0x60, blue: 0x00, alpha: 0xFF)
 
-let colorArray = [
+let scabColorArray = [
     black, red, green, blue, violet, orange, yellow, cyan, magenta, brown, darkGreen
 ]
 
-var scabcColors = Set<CGColor>(colorArray)
+let barryColorArray = [white, blue]
+
+var scabcColors = Set<CGColor>(barryColorArray)
